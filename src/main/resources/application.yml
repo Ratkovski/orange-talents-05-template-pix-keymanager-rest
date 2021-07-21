@@ -1,12 +1,29 @@
 micronaut:
   application:
     name: pixRest
-datasources:
-  default:
-    url: jdbc:mysql://localhost:3306/db
-    driverClassName: com.mysql.cj.jdbc.Driver
-    username: root
-    password: ''
-    schema-generate: CREATE_DROP
-    dialect: MYSQL
-jpa.default.properties.hibernate.hbm2ddl.auto: update
+  server:
+    port: ${SERVER_PORT:8080}
+
+
+grpc:
+  client:
+    plaintext: true
+    max-retry-attempts: 10
+  channels:
+    keyManager:
+      address: '${KEY_MANAGER_HOST:localhost}:${KEY_MANAGER_PORT:50051}'
+      plaintext: true
+      max-retry-attempts: 10
+
+##
+# Jackson configuration
+# https://github.com/micronaut-projects/micronaut-core/issues/240
+# https://geowarin.com/correctly-handle-jsr-310-java-8-dates-with-jackson/
+# https://www.baeldung.com/jackson-serialize-dates
+##
+# Para formatar como LocalDateTime (por causa do Micronaut)
+jackson:
+  serialization:
+    writeDatesAsTimestamps: false
+
+
