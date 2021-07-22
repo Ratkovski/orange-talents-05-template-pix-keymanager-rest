@@ -62,6 +62,50 @@ internal class CarregaChavePixControllerTest {
         Assertions.assertNotNull(response.body())
     }
 
+    @Test
+    internal fun `deve listar todas as chaves pix existentes`() {
+
+        val clienteId = UUID.randomUUID().toString()
+        val respostaGrpc = listaChavePixResponse(clienteId)
+    }
+
+    private fun listaChavePixResponse(clienteId: String): ListaKeyPixResponse {
+        val chaveEmail = ListaKeyPixResponse.ChavePix.newBuilder()
+            .setPixId(UUID.randomUUID().toString())
+            .setTipo(TIPO_DE_CHAVE_EMAIL)
+            .setChave(CHAVE_EMAIL)
+            .setTipoDeConta(CONTA_CORRENTE)
+            .setCriadaEm(CHAVE_CRIADA_EM.let {
+                val createdAt = it.atZone(ZoneId.of("UTC")).toInstant()
+                Timestamp.newBuilder()
+                    .setSeconds(createdAt.epochSecond)
+                    .setNanos(createdAt.nano)
+                    .build()
+            })
+
+            .build()
+
+        val chaveCelular = ListaKeyPixResponse.ChavePix.newBuilder()
+            .setPixId(UUID.randomUUID().toString())
+            .setTipo(TIPO_DE_CHAVE_CELULAR)
+            .setChave(CHAVE_CELULAR)
+            .setTipoDeConta(CONTA_CORRENTE)
+            .setCriadaEm(CHAVE_CRIADA_EM.let {
+                val createdAt = it.atZone(ZoneId.of("UTC")).toInstant()
+                Timestamp.newBuilder()
+                    .setSeconds(createdAt.epochSecond)
+                    .setNanos(createdAt.nano)
+                    .build()
+            })
+
+            .build()
+
+        return ListaKeyPixResponse.newBuilder()
+            .setClienteId(clienteId)
+            .addAllChaves(listOf(chaveEmail,chaveCelular))
+            .build()
+    }
+
     private fun carregaChavePixResponse(clienteId: String, pixId: String)=
             DetailsKeyPixResponse.newBuilder()
                 .setClienteId(clienteId)
