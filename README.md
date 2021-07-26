@@ -18,3 +18,12 @@
 
 - [Micronaut Hikari JDBC Connection Pool documentation](https://micronaut-projects.github.io/micronaut-sql/latest/guide/index.html#jdbc)
 
+
+## build e run do projeto
+
+ ```
+ docker build -t orange-talents-05-template-pix-keymanager-rest:latest .  
+ ```
+ ```
+ docker run -d -p 8080:8080 orange-talents-05-template-pix-keymanager-rest  
+ ```
