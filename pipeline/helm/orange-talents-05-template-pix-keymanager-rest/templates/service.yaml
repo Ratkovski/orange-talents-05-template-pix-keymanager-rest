@@ -2,6 +2,8 @@ apiVersion: v1
 kind: Service
 metadata:
   name: {{ include "orange-talents-05-template-pix-keymanager-rest.fullname" . }}
+  annotations:
+    service.beta.kubernetes.io/aws-load-balancer-internal: "true"
   labels:
     {{- include "orange-talents-05-template-pix-keymanager-rest.labels" . | nindent 4 }}
 spec:

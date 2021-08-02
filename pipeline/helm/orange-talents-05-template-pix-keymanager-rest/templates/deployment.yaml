@@ -35,7 +35,7 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           ports:
             - name: http
-              containerPort: 80
+              containerPort: 8080
               protocol: TCP
           livenessProbe:
             httpGet:
@@ -45,7 +45,10 @@ spec:
             httpGet:
               path: /
               port: http
-          resources:
+          envFrom:
+            - configMapRef:
+                name:
+          resources: public.ecr.aws/d8b2x5c9/orange-talents-05-template-pix-keymanager-rest-configmap
             {{- toYaml .Values.resources | nindent 12 }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
